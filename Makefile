@@ -39,4 +39,16 @@ watch:
 	    fi; \
 	fi
 
+db-status:
+	@GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./db/development.db GOOSE_MIGRATION_DIR=./db/migrations goose status
+
+db-up:
+	@GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./db/development.db GOOSE_MIGRATION_DIR=./db/migrations goose up
+
+db-down:
+	@GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./db/development.db GOOSE_MIGRATION_DIR=./db/migrations goose down
+
+db-reset:
+	@GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./db/development.db GOOSE_MIGRATION_DIR=./db/migrations goose reset
+
 .PHONY: all build run test clean
