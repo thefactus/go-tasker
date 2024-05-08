@@ -1,4 +1,4 @@
-# Todolist
+# To-dolist
 
 <p align="right">
   <img src="./gopher.png" alt="Gopher">
@@ -9,9 +9,14 @@ This project is a Go-based web application that provides a simple and intuitive 
 ## To-dos
 
 - [x] GORM
+- [x] Set up for Test Driven Development
 - [x] Lists
   - [x] Integration Tests
 - [ ] Tasks
+  - [ ] Integration Tests
+- [x] Sqlite3
+- [ ] Authentication
+  - [ ] Integration Tests
 
 ## Getting Started
 
