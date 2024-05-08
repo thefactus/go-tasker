@@ -6,7 +6,6 @@ import (
 	"todolist/utils"
 )
 
-
 func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 	var createListPayload types.CreateListPayload
 	if err := utils.ParseAndValidateJSON(w, r, &createListPayload); err != nil {
@@ -21,5 +20,5 @@ func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 
 	response := utils.PrepareJSONWithMessage("List created successfully", list)
 
-	utils.WriteJSON(w, http.StatusOK, response)
+	utils.WriteJSON(w, http.StatusCreated, response)
 }
