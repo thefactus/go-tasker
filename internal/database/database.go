@@ -1,27 +1,30 @@
 package database
 
 import (
-	"context"
-	"database/sql"
-	"fmt"
 	"log"
 	"os"
-	"time"
+	"todolist/schemas"
+	"todolist/types"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 
 	_ "github.com/joho/godotenv/autoload"
-	_ "github.com/mattn/go-sqlite3"
 )
 
 type Service interface {
-	Health() map[string]string
+	GetLists() ([]schemas.List, error)
+	CreateList(payload types.CreateListPayload) (*schemas.List, error)
+	UpdateList(listID string, payload types.UpdateListPayload) (*schemas.List, error)
+	DeleteList(listID string) error
 }
 
 type service struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
 var (
-	dburl      = os.Getenv("DB_URL")
+	dbUrl      = os.Getenv("DB_URL")
 	dbInstance *service
 )
 
@@ -31,10 +34,15 @@ func New() Service {
 		return dbInstance
 	}
 
-	db, err := sql.Open("sqlite3", dburl)
+	// Create DB and connect
+	db, err := gorm.Open(sqlite.Open(dbUrl), &gorm.Config{})
 	if err != nil {
-		// This will not be a connection error, but a DSN parse error or
-		// another initialization error.
+		log.Fatal(err)
+	}
+
+	// Migrate the Schema
+	err = db.AutoMigrate(&schemas.List{})
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -44,16 +52,51 @@ func New() Service {
 	return dbInstance
 }
 
-func (s *service) Health() map[string]string {
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-	defer cancel()
+func (s *service) GetLists() ([]schemas.List, error) {
+	var lists []schemas.List
+	if err := s.db.Find(&lists).Error; err != nil {
+		return nil, err
+	}
+	return lists, nil
+}
 
-	err := s.db.PingContext(ctx)
-	if err != nil {
-		log.Fatalf(fmt.Sprintf("db down: %v", err))
+func (s *service) CreateList(payload types.CreateListPayload) (*schemas.List, error) {
+	list := schemas.List{
+		Title: payload.Title,
 	}
 
-	return map[string]string{
-		"message": "It's healthy",
+	// Create the list in the database
+	if err := s.db.Create(&list).Error; err != nil {
+		return nil, err
 	}
+
+	return &list, nil
+}
+
+func (s *service) UpdateList(listID string, payload types.UpdateListPayload) (*schemas.List, error) {
+	var list schemas.List
+	if err := s.db.First(&list, listID).Error; err != nil {
+		return nil, err
+	}
+
+	list.Title = payload.Title
+
+	if err := s.db.Save(&list).Error; err != nil {
+		return nil, err
+	}
+
+	return &list, nil
+}
+
+func (s *service) DeleteList(listID string) error {
+	var list schemas.List
+	if err := s.db.First(&list, listID).Error; err != nil {
+		return err
+	}
+
+	if err := s.db.Delete(&list).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
