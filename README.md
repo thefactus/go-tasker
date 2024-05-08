@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="./gopher.png" alt="Gopher">
+</p>
+
 # Project todolist
 
 One Paragraph of project description goes here
