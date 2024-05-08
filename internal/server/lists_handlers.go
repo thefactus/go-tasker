@@ -34,3 +34,28 @@ func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteJSON(w, http.StatusCreated, response)
 }
+
+func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
+	listID, err := utils.GetIdFromRequest(r)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Parse the request body
+	var updateListPayload types.UpdateListPayload
+	if err := utils.ParseAndValidateJSON(w, r, &updateListPayload); err != nil {
+		return
+	}
+
+	// Update the list
+	list, err := s.db.UpdateList(listID, updateListPayload)
+	if err != nil {
+		utils.WriteInternalServerError(w, err)
+		return
+	}
+
+	response := utils.PrepareJSONWithMessage("List updated successfully", list)
+
+	utils.WriteJSON(w, http.StatusOK, response)
+}

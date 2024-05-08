@@ -14,6 +14,17 @@ import (
 
 var Validate = validator.New()
 
+func GetIdFromRequest(r *http.Request) (string, error) {
+	pathSegments := strings.Split(r.URL.Path, "/")
+
+	if len(pathSegments) < 5 || pathSegments[4] == "" {
+		return "", fmt.Errorf("missing ID")
+	}
+
+	id := pathSegments[4]
+	return id, nil
+}
+
 func ParseAndValidateJSON(w http.ResponseWriter, r *http.Request, payload any) error {
 	if r.Body == nil {
 		WriteError(w, http.StatusBadRequest, fmt.Errorf("missing request body"))
@@ -72,11 +83,38 @@ func PrepareJSONWithMessage(message string, payload interface{}) map[string]inte
 	response := map[string]interface{}{
 		"message": message,
 	}
-	payloadMap := createPayloadMap(payload)
-	response["data"] = payloadMap
+
+	val := reflect.ValueOf(payload)
+	switch val.Kind() {
+	case reflect.Slice:
+		response["data"] = handleSlicePayload(val)
+	case reflect.Ptr:
+		response["data"] = handlePointerPayload(val)
+	default:
+		response["data"] = createPayloadMap(payload)
+	}
 
 	jsonResponse := marshalAndUnmarshalJSON(response)
 	return jsonResponse
+}
+
+func handleSlicePayload(val reflect.Value) interface{} {
+	if val.Len() == 0 {
+		return []interface{}{}
+	}
+
+	var payloadData []map[string]interface{}
+	for i := 0; i < val.Len(); i++ {
+		payloadData = append(payloadData, createPayloadMap(val.Index(i).Interface()))
+	}
+	return payloadData
+}
+
+func handlePointerPayload(val reflect.Value) interface{} {
+	if val.IsNil() {
+		return []interface{}{}
+	}
+	return createPayloadMap(val.Interface())
 }
 
 func createPayloadMap(payload interface{}) map[string]interface{} {

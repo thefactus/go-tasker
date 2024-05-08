@@ -20,7 +20,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 func AddListsHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
 	mux.HandleFunc("GET "+apiVersion+"/lists", s.GetListsHandler)
 	mux.HandleFunc("POST "+apiVersion+"/lists", s.PostListsHandler)
-	// mux.HandleFunc("PUT "+apiVersion+"/lists", s.PutListHandler)
+	mux.HandleFunc("PUT "+apiVersion+"/lists/", s.PutListHandler)
 	// mux.HandleFunc("DELETE "+apiVersion+"/lists", s.DeleteListHandler)
 }
 
