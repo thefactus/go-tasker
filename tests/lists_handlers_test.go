@@ -207,4 +207,30 @@ func TestLists(t *testing.T) {
 		}
 	})
 
+	t.Run("expects to delete a list", func(t *testing.T) {
+		clearTable()
+
+		payload := []byte(`{"title": "Tasks"}`)
+		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
+		response := executeRequest(req)
+
+		checkResponseCode(t, http.StatusCreated, response.Code)
+
+		req, _ = http.NewRequest("DELETE", "/api/v1/lists/1", nil)
+		response = executeRequest(req)
+
+		checkResponseCode(t, http.StatusOK, response.Code)
+
+		var result map[string]interface{}
+		err := json.Unmarshal(response.Body.Bytes(), &result)
+		if err != nil {
+			t.Errorf("Error unmarshalling response: %v", err)
+			return
+		}
+
+		// Check for message
+		if message, ok := result["message"].(string); !ok || message != "List deleted successfully" {
+			t.Errorf("Expected message to be 'List deleted successfully'. Got %v", result["message"])
+		}
+	})
 }
