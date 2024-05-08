@@ -90,6 +90,43 @@ func TestLists(t *testing.T) {
 		}
 	})
 
+	t.Run("expects to get a list", func(t *testing.T) {
+		clearTable()
+
+		payload := []byte(`{"title": "Tasks"}`)
+		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
+		response := executeRequest(req)
+
+		checkResponseCode(t, http.StatusCreated, response.Code)
+
+		req, _ = http.NewRequest("GET", "/api/v1/lists", nil)
+		response = executeRequest(req)
+
+		checkResponseCode(t, http.StatusOK, response.Code)
+
+		var actual Response
+		json.Unmarshal(response.Body.Bytes(), &actual)
+
+		for _, item := range actual.Data {
+			list, ok := item.(map[string]interface{})
+			if !ok {
+				t.Errorf("Expected list item to be a map. Got '%v'", item)
+			}
+
+			if id, ok := list["id"].(float64); !ok || id != 1 {
+				t.Errorf("Expected id to be 1. Got '%v'", list["id"])
+			}
+
+			if title, ok := list["title"].(string); !ok || title != "Tasks" {
+				t.Errorf("Expected title to be 'Tasks'. Got '%v'", list["title"])
+			}
+
+			if _, ok := list["created_at"]; !ok {
+				t.Errorf("Expected 'created_at' field to be present")
+			}
+		}
+	})
+
 	t.Run("expects to create a list", func(t *testing.T) {
 		clearTable()
 
@@ -127,7 +164,7 @@ func TestLists(t *testing.T) {
 		}
 	})
 
-	t.Run("expects to get a list", func(t *testing.T) {
+	t.Run("expects to update a list", func(t *testing.T) {
 		clearTable()
 
 		payload := []byte(`{"title": "Tasks"}`)
@@ -136,31 +173,38 @@ func TestLists(t *testing.T) {
 
 		checkResponseCode(t, http.StatusCreated, response.Code)
 
-		req, _ = http.NewRequest("GET", "/api/v1/lists", nil)
+		payload = []byte(`{"title": "Tasks Updated"}`)
+		req, _ = http.NewRequest("PUT", "/api/v1/lists/1", bytes.NewReader(payload))
 		response = executeRequest(req)
 
 		checkResponseCode(t, http.StatusOK, response.Code)
 
-		var actual Response
-		json.Unmarshal(response.Body.Bytes(), &actual)
+		var result map[string]interface{}
+		err := json.Unmarshal(response.Body.Bytes(), &result)
+		if err != nil {
+			t.Errorf("Error unmarshalling response: %v", err)
+			return
+		}
 
-		for _, item := range actual.Data {
-			list, ok := item.(map[string]interface{})
-			if !ok {
-				t.Errorf("Expected list item to be a map. Got '%v'", item)
-			}
+		// Check for message
+		if message, ok := result["message"].(string); !ok || message != "List updated successfully" {
+			t.Errorf("Expected message to be 'List updated successfully'. Got %v", result["message"])
+		}
 
-			if id, ok := list["id"].(float64); !ok || id != 1 {
-				t.Errorf("Expected id to be 1. Got '%v'", list["id"])
-			}
+		// // Check for id
+		if id, ok := result["data"].(map[string]interface{})["id"].(float64); !ok || id != 1 {
+			t.Errorf("Expected id to be 1. Got %v", result["data"].(map[string]interface{})["id"])
+		}
 
-			if title, ok := list["title"].(string); !ok || title != "Tasks" {
-				t.Errorf("Expected title to be 'Tasks'. Got '%v'", list["title"])
-			}
+		// // Check for title
+		if title, ok := result["data"].(map[string]interface{})["title"].(string); !ok || title != "Tasks Updated" {
+			t.Errorf("Expected title to be 'Tasks Updated'. Got %v", result["data"].(map[string]interface{})["title"])
+		}
 
-			if _, ok := list["created_at"]; !ok {
-				t.Errorf("Expected 'created_at' field to be present")
-			}
+		// // Check for CreatedAt presence
+		if _, ok := result["data"].(map[string]interface{})["created_at"]; !ok {
+			t.Errorf("Expected 'created_at' field to be present")
 		}
 	})
+
 }
