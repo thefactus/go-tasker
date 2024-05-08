@@ -40,7 +40,7 @@ func TestMain(m *testing.M) {
 
 func getDB() *gorm.DB {
 	// Create DB and connect
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(os.Getenv("DB_URL")), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -161,6 +161,28 @@ func TestLists(t *testing.T) {
 		// Check for CreatedAt presence
 		if _, ok := result["data"].(map[string]interface{})["created_at"]; !ok {
 			t.Errorf("Expected 'created_at' field to be present")
+		}
+	})
+
+	t.Run("while creating/when title is missing/expects to return validation error", func(t *testing.T) {
+		clearTable()
+
+		payload := []byte(`{}`)
+		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
+		response := executeRequest(req)
+
+		checkResponseCode(t, http.StatusBadRequest, response.Code)
+
+		var result map[string]interface{}
+		err := json.Unmarshal(response.Body.Bytes(), &result)
+		if err != nil {
+			t.Errorf("Error unmarshalling response: %v", err)
+			return
+		}
+
+		// Check for error message
+		if error, ok := result["error"].(string); !ok || error != "Missing required fields: title" {
+			t.Errorf("Expected error to be 'Missing required fields: title'. Got %v", result["error"])
 		}
 	})
 
