@@ -8,10 +8,11 @@ import (
 	"todolist/internal/server"
 )
 
-func TestHandler(t *testing.T) {
+func TestHelloWorldHandler(t *testing.T) {
 	s := &server.Server{}
 	server := httptest.NewServer(http.HandlerFunc(s.HelloWorldHandler))
 	defer server.Close()
+
 	resp, err := http.Get(server.URL)
 	if err != nil {
 		t.Fatalf("error making request to server. Err: %v", err)
