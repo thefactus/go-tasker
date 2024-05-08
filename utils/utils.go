@@ -84,6 +84,10 @@ func PrepareJSONWithMessage(message string, payload interface{}) map[string]inte
 		"message": message,
 	}
 
+	if payload == nil {
+		return response
+	}
+
 	val := reflect.ValueOf(payload)
 	switch val.Kind() {
 	case reflect.Slice:

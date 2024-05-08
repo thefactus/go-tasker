@@ -59,3 +59,21 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteJSON(w, http.StatusOK, response)
 }
+
+func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
+	listID, err := utils.GetIdFromRequest(r)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	err = s.db.DeleteList(listID)
+	if err != nil {
+		utils.WriteInternalServerError(w, err)
+		return
+	}
+
+	response := utils.PrepareJSONWithMessage("List deleted successfully", nil)
+
+	utils.WriteJSON(w, http.StatusOK, response)
+}
