@@ -27,3 +27,7 @@ tmp/
 
 # Project build
 main
+
+# SQLite files
+db/development.db
+tests/test.db
