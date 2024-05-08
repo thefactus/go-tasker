@@ -1,4 +1,4 @@
-# To-dolist
+# To-do list
 
 <p align="right">
   <img src="./gopher.png" alt="Gopher">
