@@ -19,6 +19,7 @@ This project is a Go-based REST API that allows users to manage to-do lists thro
 - [x] Sqlite3
 - [ ] Authentication
   - [ ] Integration Tests
+- [x] Add go-playground/validator for validations
 
 ## Getting Started
 
