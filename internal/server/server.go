@@ -6,10 +6,9 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"todolist/internal/database"
 
 	_ "github.com/joho/godotenv/autoload"
-
-	"todolist/internal/database"
 )
 
 type Server struct {
