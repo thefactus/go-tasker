@@ -4,9 +4,21 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"todolist/internal/server"
 )
+
+func TestMain(m *testing.M) {
+	s = server.NewServer()
+	db = getDB()
+
+	code := m.Run()
+
+	clearTableLists()
+
+	os.Exit(code)
+}
 
 func TestHelloWorldHandler(t *testing.T) {
 	s := &server.Server{}

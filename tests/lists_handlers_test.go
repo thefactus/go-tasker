@@ -3,74 +3,16 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"net/http"
-	"net/http/httptest"
-	"os"
 	"reflect"
 	"testing"
-	"todolist/internal/server"
-
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 
 	_ "github.com/joho/godotenv/autoload"
 )
 
-var (
-	s  *http.Server
-	db *gorm.DB
-)
-
-type Response struct {
-	Data    []interface{} `json:"data"`
-	Message string        `json:"message"`
-}
-
-func TestMain(m *testing.M) {
-	s = server.NewServer()
-	db = getDB()
-
-	code := m.Run()
-
-	clearTable()
-
-	os.Exit(code)
-}
-
-func getDB() *gorm.DB {
-	// Create DB and connect
-	db, err := gorm.Open(sqlite.Open(os.Getenv("DB_URL")), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return db
-}
-
-func clearTable() {
-	db.Exec("DELETE FROM lists")
-	db.Exec("DELETE FROM sqlite_sequence WHERE name='lists'") // sqlite3
-	// db.Exec("ALTER SEQUENCE lists_id_seq RESTART WITH 1")  // postgres
-	// db.Exec("ALTER TABLE lists AUTO_INCREMENT = 1")        // mysql
-}
-
-func executeRequest(req *http.Request) *httptest.ResponseRecorder {
-	rr := httptest.NewRecorder()
-	s.Handler.ServeHTTP(rr, req)
-
-	return rr
-}
-
-func checkResponseCode(t *testing.T, expected, actual int) {
-	if expected != actual {
-		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
-	}
-}
-
 func TestLists(t *testing.T) {
 	t.Run("expects to get empty data", func(t *testing.T) {
-		clearTable()
+		clearTableLists()
 
 		req, _ := http.NewRequest("GET", "/api/v1/lists", nil)
 		response := executeRequest(req)
@@ -91,7 +33,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("expects to get a list", func(t *testing.T) {
-		clearTable()
+		clearTableLists()
 
 		payload := []byte(`{"title": "Tasks"}`)
 		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
@@ -122,7 +64,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("expects to create a list", func(t *testing.T) {
-		clearTable()
+		clearTableLists()
 
 		payload := []byte(`{"title": "Tasks"}`)
 		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
@@ -155,7 +97,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("while creating/when title is missing/expects to return validation error", func(t *testing.T) {
-		clearTable()
+		clearTableLists()
 
 		payload := []byte(`{}`)
 		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
@@ -176,7 +118,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("expects to update a list", func(t *testing.T) {
-		clearTable()
+		clearTableLists()
 
 		payload := []byte(`{"title": "Tasks"}`)
 		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
@@ -215,7 +157,7 @@ func TestLists(t *testing.T) {
 	})
 
 	t.Run("expects to delete a list", func(t *testing.T) {
-		clearTable()
+		clearTableLists()
 
 		payload := []byte(`{"title": "Tasks"}`)
 		req, _ := http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))

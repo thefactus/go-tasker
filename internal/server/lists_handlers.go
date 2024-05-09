@@ -36,11 +36,7 @@ func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
-	listID, err := utils.GetIdFromRequest(r)
-	if err != nil {
-		utils.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	listID := r.PathValue("id")
 
 	// Parse the request body
 	var updateListPayload types.UpdateListPayload
@@ -51,7 +47,8 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 	// Update the list
 	list, err := s.db.UpdateList(listID, updateListPayload)
 	if err != nil {
-		utils.WriteInternalServerError(w, err)
+		// maybe change this error
+		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -61,15 +58,12 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
-	listID, err := utils.GetIdFromRequest(r)
-	if err != nil {
-		utils.WriteError(w, http.StatusBadRequest, err)
-		return
-	}
+	listID := r.PathValue("id")
 
-	err = s.db.DeleteList(listID)
+	err := s.db.DeleteList(listID)
 	if err != nil {
-		utils.WriteInternalServerError(w, err)
+		// maybe change this error
+		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
