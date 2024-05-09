@@ -13,6 +13,7 @@ Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/r
 ## To-dos
 
 - [x] utilise "net/http" package routing enhancements
+- [x] API versioning
 - [x] GORM
 - [x] Set up for Test Driven Development
 - [x] Lists
