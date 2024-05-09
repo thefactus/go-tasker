@@ -4,7 +4,7 @@
   <img src="./gopher.png" alt="Gopher">
 </p>
 
-This project is a Go-based REST API that allows users to manage to-do lists through a simple and intuitive interface. It features a robust backend with an SQLite database and includes functionalities for dealing with to-do lists. The project also includes a comprehensive set of unit tests and a Makefile for easy building and testing. The project is designed with clean, maintainable code and follows best practices for structuring Go applications.
+This project is a Go-based REST API that allows users to manage to-do lists through a simple and intuitive interface. It features a robust backend with an SQLite database and includes functionalities for dealing with to-do lists. The project also includes a comprehensive set of integration tests and a Makefile for easy building and testing. The project is designed with clean, maintainable code and follows best practices for structuring Go applications.
 
 Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/routing-enhancements) package routing enhancements.
 
