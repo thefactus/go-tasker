@@ -9,8 +9,6 @@
 
 Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/routing-enhancements) package routing enhancements.
 
-**The project is still in progress and should be finished soon.**
-
 ## Features
 
 - Routing with the latest "net/http" package enhancements for Go 1.22
