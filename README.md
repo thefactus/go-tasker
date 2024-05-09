@@ -19,7 +19,7 @@ Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/r
 - [x] Lists
   - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/lists_handlers_test.go)
 - [x] Tasks
-  - [x] Integration Tests
+  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/tasks_handlers_test.go)
 - [ ] Authentication
   - [ ] Integration Tests
 - [ ] Databases support
