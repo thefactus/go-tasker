@@ -18,8 +18,8 @@ Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/r
 - [x] Set up for Test Driven Development
 - [x] Lists
   - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/lists_handlers_test.go)
-- [ ] Tasks
-  - [ ] Integration Tests
+- [x] Tasks
+  - [x] Integration Tests
 - [ ] Authentication
   - [ ] Integration Tests
 - [ ] Databases support
