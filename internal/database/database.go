@@ -17,6 +17,7 @@ type Service interface {
 	CreateList(payload types.CreateListPayload) (*schemas.List, error)
 	UpdateList(listID string, payload types.UpdateListPayload) (*schemas.List, error)
 	DeleteList(listID string) error
+	GetTasks(listID string) ([]schemas.Task, error)
 }
 
 type service struct {
@@ -42,6 +43,11 @@ func New() Service {
 
 	// Migrate the Schema
 	err = db.AutoMigrate(&schemas.List{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.AutoMigrate(&schemas.Task{})
 	if err != nil {
 		log.Fatal(err)
 	}
