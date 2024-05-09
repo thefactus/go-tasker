@@ -70,3 +70,20 @@ func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteJSON(w, http.StatusOK, response)
 }
+
+func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
+	taskID := r.PathValue("taskID")
+
+	var updateTaskDonePayload types.UpdateTaskDonePayload
+	updateTaskDonePayload.Done = true
+
+	task, err := s.db.UpdateTaskDone(taskID, updateTaskDonePayload)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	response := utils.PrepareJSONWithMessage("Task marked as done successfully", task)
+
+	utils.WriteJSON(w, http.StatusOK, response)
+}

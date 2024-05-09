@@ -20,6 +20,7 @@ type Service interface {
 	GetTasks(listID string) ([]schemas.Task, error)
 	CreateTask(listID string, payload types.CreateTaskPayload) (*schemas.Task, error)
 	UpdateTask(taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error)
+	UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error)
 	DeleteTask(taskID string) error
 }
 

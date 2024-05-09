@@ -49,6 +49,21 @@ func (s *service) UpdateTask(taskID string, payload types.UpdateTaskPayload) (*s
 	return &task, nil
 }
 
+func (s *service) UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error) {
+	var task schemas.Task
+	if err := s.db.First(&task, taskID).Error; err != nil {
+		return nil, err
+	}
+
+	task.Done = payload.Done
+
+	if err := s.db.Save(&task).Error; err != nil {
+		return nil, err
+	}
+
+	return &task, nil
+}
+
 func (s *service) DeleteTask(taskID string) error {
 	var task schemas.Task
 	if err := s.db.First(&task, taskID).Error; err != nil {
