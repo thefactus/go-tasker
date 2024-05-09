@@ -1,6 +1,5 @@
 # To-do list
 
-
 <div>
   <img align="right" src="./gopher.png" height="100" alt="Gopher">
   <p align="justify">
@@ -8,30 +7,20 @@
   </p>
 </div>
 
-
 Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/routing-enhancements) package routing enhancements.
 
 **The project is still in progress and should be finished soon.**
 
-## To-dos
+## Features
 
-- [x] utilise "net/http" package routing enhancements
-- [x] API versioning
-- [x] GORM
-- [x] Set up for Test Driven Development
-- [x] Lists
-  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/lists_handlers_test.go)
-- [x] Tasks
-  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/tasks_handlers_test.go)
-- [ ] Authentication
-  - [ ] Integration Tests
-- [ ] Databases support
-  - [x] SQLite
-  - [ ] PostgreSQL
-- [x] Add go-playground/validator
-- [ ] Add a custom Logger package
-- [ ] Add Swagger
-- [ ] Add Go Docs
+- Routing with the latest "net/http" package enhancements for Go 1.22
+- Endpoints for managing to-do lists
+- Endpoints for managing tasks
+- Integration tests for all endpoints
+- SQLite database support
+- Makefile for easy building and testing
+- GORM for database management
+- Go-playground/validator for request validation
 
 ## Getting Started
 
@@ -86,3 +75,23 @@ clean up binary from the last build
 ```bash
 make clean
 ```
+
+## To-dos
+
+- [x] utilise "net/http" package routing enhancements
+- [x] API versioning
+- [x] GORM
+- [x] Set up for Test Driven Development
+- [x] Lists
+  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/lists_handlers_test.go)
+- [x] Tasks
+  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/tasks_handlers_test.go)
+- [ ] Authentication
+  - [ ] Integration Tests
+- [ ] Databases support
+  - [x] SQLite
+  - [ ] PostgreSQL
+- [x] Add go-playground/validator
+- [ ] Add a custom Logger package
+- [ ] Add Swagger
+- [ ] Add Go Docs
