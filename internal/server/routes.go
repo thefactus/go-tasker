@@ -31,6 +31,7 @@ func AddTasksHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
 	mux.HandleFunc("PUT "+apiVersion+"/lists/{listID}/tasks/{taskID}", s.PutTaskHandler)
 	mux.HandleFunc("DELETE "+apiVersion+"/lists/{listID}/tasks/{taskID}", s.DeleteTaskHandler)
 	mux.HandleFunc("PATCH "+apiVersion+"/lists/{listID}/tasks/{taskID}/done", s.PatchTaskDoneHandler)
+	mux.HandleFunc("PATCH "+apiVersion+"/lists/{listID}/tasks/{taskID}/undone", s.PatchTaskUndoneHandler)
 }
 
 func (s *Server) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
