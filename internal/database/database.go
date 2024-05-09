@@ -22,6 +22,7 @@ type Service interface {
 	UpdateTask(taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error)
 	UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error)
 	DeleteTask(taskID string) error
+	DeleteAllTasks(listID string) error
 }
 
 type service struct {

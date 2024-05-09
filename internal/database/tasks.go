@@ -76,3 +76,10 @@ func (s *service) DeleteTask(taskID string) error {
 
 	return nil
 }
+
+func (s *service) DeleteAllTasks(listID string) error {
+	if err := s.db.Where("list_id = ?", listID).Delete(&schemas.Task{}).Error; err != nil {
+		return err
+	}
+	return nil
+}
