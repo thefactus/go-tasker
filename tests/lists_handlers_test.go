@@ -113,17 +113,11 @@ func TestLists(t *testing.T) {
 				t.Errorf("Expected list item to be a map. Got '%v'", item)
 			}
 
-			if id, ok := list["id"].(float64); !ok || id != 1 {
-				t.Errorf("Expected id to be 1. Got '%v'", list["id"])
-			}
+			assertEqual(t, float64(1), list["id"], "Expected id to be 1")
 
-			if title, ok := list["title"].(string); !ok || title != "Tasks" {
-				t.Errorf("Expected title to be 'Tasks'. Got '%v'", list["title"])
-			}
+			assertEqual(t, "Tasks", list["title"], "Expected title to be 'Tasks'")
 
-			if _, ok := list["created_at"]; !ok {
-				t.Errorf("Expected 'created_at' field to be present")
-			}
+			assertIsPresent(t, list["created_at"], "Expected 'created_at' field to be present")
 		}
 	})
 
@@ -144,24 +138,20 @@ func TestLists(t *testing.T) {
 		}
 
 		// Check for message
-		if message, ok := result["message"].(string); !ok || message != "List created successfully" {
-			t.Errorf("Expected message to be 'List created successfully'. Got %v", result["message"])
-		}
+		assertEqual(t, "List created successfully", result["message"],
+			"Expected message to be 'List created successfully'")
 
 		// Check for id
-		if id, ok := result["data"].(map[string]interface{})["id"].(float64); !ok || id != 1 {
-			t.Errorf("Expected id to be 1. Got %v", result["data"].(map[string]interface{})["id"])
-		}
+		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+			"Expected id to be 1")
 
 		// Check for title
-		if title, ok := result["data"].(map[string]interface{})["title"].(string); !ok || title != "Tasks" {
-			t.Errorf("Expected title to be 'Tasks'. Got %v", result["data"].(map[string]interface{})["title"])
-		}
+		assertEqual(t, "Tasks", result["data"].(map[string]interface{})["title"],
+			"Expected title to be 'Tasks'")
 
 		// Check for CreatedAt presence
-		if _, ok := result["data"].(map[string]interface{})["created_at"]; !ok {
-			t.Errorf("Expected 'created_at' field to be present")
-		}
+		assertIsPresent(t, result["data"].(map[string]interface{})["created_at"],
+			"Expected 'created_at' field to be present")
 	})
 
 	t.Run("while creating/when title is missing/expects to return validation error", func(t *testing.T) {
@@ -181,9 +171,8 @@ func TestLists(t *testing.T) {
 		}
 
 		// Check for error message
-		if error, ok := result["error"].(string); !ok || error != "Missing required fields: title" {
-			t.Errorf("Expected error to be 'Missing required fields: title'. Got %v", result["error"])
-		}
+		assertEqual(t, result["error"], "Missing required fields: title",
+			"Expected error to be 'Missing required fields: title'")
 	})
 
 	t.Run("expects to update a list", func(t *testing.T) {
@@ -209,24 +198,20 @@ func TestLists(t *testing.T) {
 		}
 
 		// Check for message
-		if message, ok := result["message"].(string); !ok || message != "List updated successfully" {
-			t.Errorf("Expected message to be 'List updated successfully'. Got %v", result["message"])
-		}
+		assertEqual(t, "List updated successfully", result["message"],
+			"Expected message to be 'List updated successfully'")
 
-		// // Check for id
-		if id, ok := result["data"].(map[string]interface{})["id"].(float64); !ok || id != 1 {
-			t.Errorf("Expected id to be 1. Got %v", result["data"].(map[string]interface{})["id"])
-		}
+		// Check for id
+		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+			"Expected id to be 1")
 
-		// // Check for title
-		if title, ok := result["data"].(map[string]interface{})["title"].(string); !ok || title != "Tasks Updated" {
-			t.Errorf("Expected title to be 'Tasks Updated'. Got %v", result["data"].(map[string]interface{})["title"])
-		}
+		// Check for title
+		assertEqual(t, "Tasks Updated", result["data"].(map[string]interface{})["title"],
+			"Expected title to be 'Tasks Updated'")
 
-		// // Check for CreatedAt presence
-		if _, ok := result["data"].(map[string]interface{})["created_at"]; !ok {
-			t.Errorf("Expected 'created_at' field to be present")
-		}
+		// Check for CreatedAt presence
+		assertIsPresent(t, result["data"].(map[string]interface{})["created_at"],
+			"Expected 'created_at' field to be present")
 	})
 
 	t.Run("expects to delete a list", func(t *testing.T) {
@@ -251,8 +236,7 @@ func TestLists(t *testing.T) {
 		}
 
 		// Check for message
-		if message, ok := result["message"].(string); !ok || message != "List deleted successfully" {
-			t.Errorf("Expected message to be 'List deleted successfully'. Got %v", result["message"])
-		}
+		assertEqual(t, result["message"], "List deleted successfully",
+			"Expected message to be 'List deleted successfully'")
 	})
 }
