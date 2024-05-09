@@ -95,3 +95,4 @@ make clean
 - [ ] Add a custom Logger package
 - [ ] Add Swagger
 - [ ] Add Go Docs
+- [ ] Improve code duplication
