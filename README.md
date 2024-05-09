@@ -13,7 +13,7 @@ This project is a Go-based REST API that allows users to manage to-do lists thro
 - [x] GORM
 - [x] Set up for Test Driven Development
 - [x] Lists
-  - [x] Integration Tests
+  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/lists_handlers_test.go)
 - [ ] Tasks
   - [ ] Integration Tests
 - [ ] Authentication
