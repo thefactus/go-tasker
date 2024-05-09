@@ -18,6 +18,9 @@ type Service interface {
 	UpdateList(listID string, payload types.UpdateListPayload) (*schemas.List, error)
 	DeleteList(listID string) error
 	GetTasks(listID string) ([]schemas.Task, error)
+	CreateTask(listID string, payload types.CreateTaskPayload) (*schemas.Task, error)
+	UpdateTask(taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error)
+	DeleteTask(taskID string) error
 }
 
 type service struct {

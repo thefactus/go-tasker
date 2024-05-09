@@ -56,9 +56,7 @@ func TestLists(t *testing.T) {
 			}
 
 			assertEqual(t, float64(1), list["id"], "Expected id to be 1")
-
 			assertEqual(t, "Tasks", list["title"], "Expected title to be 'Tasks'")
-
 			assertIsPresent(t, list["created_at"], "Expected 'created_at' field to be present")
 		}
 	})
@@ -82,15 +80,12 @@ func TestLists(t *testing.T) {
 		// Check for message
 		assertEqual(t, "List created successfully", result["message"],
 			"Expected message to be 'List created successfully'")
-
 		// Check for id
 		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-
 		// Check for title
 		assertEqual(t, "Tasks", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Tasks'")
-
 		// Check for CreatedAt presence
 		assertIsPresent(t, result["data"].(map[string]interface{})["created_at"],
 			"Expected 'created_at' field to be present")
@@ -142,15 +137,12 @@ func TestLists(t *testing.T) {
 		// Check for message
 		assertEqual(t, "List updated successfully", result["message"],
 			"Expected message to be 'List updated successfully'")
-
 		// Check for id
 		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-
 		// Check for title
 		assertEqual(t, "Tasks Updated", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Tasks Updated'")
-
 		// Check for CreatedAt presence
 		assertIsPresent(t, result["data"].(map[string]interface{})["created_at"],
 			"Expected 'created_at' field to be present")
