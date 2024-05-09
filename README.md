@@ -25,7 +25,9 @@ Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/r
   - [x] SQLite
   - [ ] PostgreSQL
 - [x] Add go-playground/validator
-- [ ] Add a Logger
+- [ ] Create a Logger package
+- [ ] Add Swagger
+- [ ] Add Go Docs
 
 ## Getting Started
 
