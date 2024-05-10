@@ -74,6 +74,15 @@ clean up binary from the last build
 make clean
 ```
 
+## Used Tools
+
+This project uses the following tools:
+
+- [Golang](https://golang.org/) for backend development
+- [net/http]([https://github.com/gin-gonic/gin](https://go.dev/blog/routing-enhancements)) for route management
+- [GoORM](https://gorm.io/) for database communication
+- [SQLite](https://www.sqlite.org/index.html) as the database
+
 ## To-dos
 
 - [x] utilise "net/http" package routing enhancements
