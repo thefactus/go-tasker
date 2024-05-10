@@ -79,8 +79,8 @@ make clean
 This project uses the following tools:
 
 - [Golang](https://golang.org/) for backend development
-- [net/http]([https://github.com/gin-gonic/gin](https://go.dev/blog/routing-enhancements)) for route management
-- [GoORM](https://gorm.io/) for database communication
+- [net/http](https://go.dev/blog/routing-enhancements) for route management
+- [GORM](https://gorm.io/) for database communication
 - [SQLite](https://www.sqlite.org/index.html) as the database
 
 ## To-dos
