@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLists(t *testing.T) {
@@ -55,9 +56,9 @@ func TestLists(t *testing.T) {
 				t.Errorf("Expected list item to be a map. Got '%v'", item)
 			}
 
-			assertEqual(t, float64(1), list["id"], "Expected id to be 1")
-			assertEqual(t, "Tasks", list["title"], "Expected title to be 'Tasks'")
-			assertIsPresent(t, list["created_at"], "Expected 'created_at' field to be present")
+			assert.Equal(t, float64(1), list["id"], "Expected id to be 1")
+			assert.Equal(t, "Tasks", list["title"], "Expected title to be 'Tasks'")
+			assert.NotNil(t, list["created_at"], "Expected 'created_at' field to be present")
 		}
 	})
 
@@ -77,17 +78,13 @@ func TestLists(t *testing.T) {
 			return
 		}
 
-		// Check for message
-		assertEqual(t, "List created successfully", result["message"],
+		assert.Equal(t, "List created successfully", result["message"],
 			"Expected message to be 'List created successfully'")
-		// Check for id
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-		// Check for title
-		assertEqual(t, "Tasks", result["data"].(map[string]interface{})["title"],
+		assert.Equal(t, "Tasks", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Tasks'")
-		// Check for CreatedAt presence
-		assertIsPresent(t, result["data"].(map[string]interface{})["created_at"],
+		assert.NotNil(t, result["data"].(map[string]interface{})["created_at"],
 			"Expected 'created_at' field to be present")
 	})
 
@@ -107,8 +104,7 @@ func TestLists(t *testing.T) {
 			return
 		}
 
-		// Check for error message
-		assertEqual(t, result["error"], "Missing required fields: title",
+		assert.Equal(t, result["error"], "Missing required fields: title",
 			"Expected error to be 'Missing required fields: title'")
 	})
 
@@ -134,17 +130,13 @@ func TestLists(t *testing.T) {
 			return
 		}
 
-		// Check for message
-		assertEqual(t, "List updated successfully", result["message"],
+		assert.Equal(t, "List updated successfully", result["message"],
 			"Expected message to be 'List updated successfully'")
-		// Check for id
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-		// Check for title
-		assertEqual(t, "Tasks Updated", result["data"].(map[string]interface{})["title"],
+		assert.Equal(t, "Tasks Updated", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Tasks Updated'")
-		// Check for CreatedAt presence
-		assertIsPresent(t, result["data"].(map[string]interface{})["created_at"],
+		assert.NotNil(t, result["data"].(map[string]interface{})["created_at"],
 			"Expected 'created_at' field to be present")
 	})
 
@@ -170,7 +162,7 @@ func TestLists(t *testing.T) {
 		}
 
 		// Check for message
-		assertEqual(t, result["message"], "List deleted successfully",
+		assert.Equal(t, result["message"], "List deleted successfully",
 			"Expected message to be 'List deleted successfully'")
 	})
 }

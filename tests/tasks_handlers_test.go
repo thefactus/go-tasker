@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTasks(t *testing.T) {
@@ -65,8 +67,8 @@ func TestTasks(t *testing.T) {
 				t.Errorf("Expected task item to be a map. Got '%v'", item)
 			}
 
-			assertEqual(t, float64(1), task["id"], "Expected id to be 1")
-			assertEqual(t, "Task 1", task["title"], "Expected title to be 'Task 1'")
+			assert.Equal(t, float64(1), task["id"], "Expected id to be 1")
+			assert.Equal(t, "Task 1", task["title"], "Expected title to be 'Task 1'")
 		}
 	})
 
@@ -93,13 +95,13 @@ func TestTasks(t *testing.T) {
 		}
 
 		// Check for message
-		assertEqual(t, "Task created successfully", result["message"],
+		assert.Equal(t, "Task created successfully", result["message"],
 			"Expected message to be 'Task created successfully'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-		assertEqual(t, "Task 1", result["data"].(map[string]interface{})["title"],
+		assert.Equal(t, "Task 1", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Task 1'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["list_id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["list_id"],
 			"Expected list_id to be 1")
 	})
 
@@ -132,13 +134,13 @@ func TestTasks(t *testing.T) {
 		}
 
 		// Check for message
-		assertEqual(t, "Task updated successfully", result["message"],
+		assert.Equal(t, "Task updated successfully", result["message"],
 			"Expected message to be 'Task updated successfully'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-		assertEqual(t, "Task 1 Updated", result["data"].(map[string]interface{})["title"],
+		assert.Equal(t, "Task 1 Updated", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Task 1 Updated'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["list_id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["list_id"],
 			"Expected list_id to be 1")
 	})
 
@@ -169,15 +171,15 @@ func TestTasks(t *testing.T) {
 			return
 		}
 
-		assertEqual(t, "Task marked as done successfully", result["message"],
+		assert.Equal(t, "Task marked as done successfully", result["message"],
 			"Expected message to be 'Task marked as done successfully'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-		assertEqual(t, "Task 1", result["data"].(map[string]interface{})["title"],
+		assert.Equal(t, "Task 1", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Task 1'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["list_id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["list_id"],
 			"Expected list_id to be 1")
-		assertEqual(t, true, result["data"].(map[string]interface{})["done"],
+		assert.Equal(t, true, result["data"].(map[string]interface{})["done"],
 			"Expected done to be true")
 	})
 
@@ -213,15 +215,15 @@ func TestTasks(t *testing.T) {
 			return
 		}
 
-		assertEqual(t, "Task marked as undone successfully", result["message"],
+		assert.Equal(t, "Task marked as undone successfully", result["message"],
 			"Expected message to be 'Task marked as undone successfully'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["id"],
 			"Expected id to be 1")
-		assertEqual(t, "Task 1", result["data"].(map[string]interface{})["title"],
+		assert.Equal(t, "Task 1", result["data"].(map[string]interface{})["title"],
 			"Expected title to be 'Task 1'")
-		assertEqual(t, float64(1), result["data"].(map[string]interface{})["list_id"],
+		assert.Equal(t, float64(1), result["data"].(map[string]interface{})["list_id"],
 			"Expected list_id to be 1")
-		assertEqual(t, false, result["data"].(map[string]interface{})["done"],
+		assert.Equal(t, false, result["data"].(map[string]interface{})["done"],
 			"Expected done to be false")
 	})
 
@@ -253,7 +255,7 @@ func TestTasks(t *testing.T) {
 		}
 
 		// Check for message
-		assertEqual(t, "Task deleted successfully", result["message"],
+		assert.Equal(t, "Task deleted successfully", result["message"],
 			"Expected message to be 'Task deleted successfully'")
 	})
 
@@ -285,7 +287,7 @@ func TestTasks(t *testing.T) {
 		}
 
 		// Check for message
-		assertEqual(t, "List deleted successfully", result["message"],
+		assert.Equal(t, "List deleted successfully", result["message"],
 			"Expected message to be 'List deleted successfully'")
 	})
 
