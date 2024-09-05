@@ -1,10 +1,10 @@
 package database
 
 import (
+	"go-tasker/schemas"
+	"go-tasker/types"
 	"log"
 	"os"
-	"todolist/schemas"
-	"todolist/types"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

@@ -1,9 +1,9 @@
 package database
 
 import (
+	"go-tasker/schemas"
+	"go-tasker/types"
 	"strconv"
-	"todolist/schemas"
-	"todolist/types"
 )
 
 func (s *service) GetTasks(listID string) ([]schemas.Task, error) {

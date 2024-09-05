@@ -1,4 +1,4 @@
-module todolist
+module go-tasker
 
 go 1.22.2
 

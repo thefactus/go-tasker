@@ -1,12 +1,12 @@
 package tests
 
 import (
+	"go-tasker/internal/server"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
-	"todolist/internal/server"
 )
 
 func TestMain(m *testing.M) {

@@ -1,8 +1,8 @@
 package database
 
 import (
-	"todolist/schemas"
-	"todolist/types"
+	"go-tasker/schemas"
+	"go-tasker/types"
 )
 
 func (s *service) GetLists() ([]schemas.List, error) {

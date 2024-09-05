@@ -2,11 +2,11 @@ package server
 
 import (
 	"fmt"
+	"go-tasker/internal/database"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
-	"todolist/internal/database"
 
 	_ "github.com/joho/godotenv/autoload"
 )

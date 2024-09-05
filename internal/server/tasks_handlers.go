@@ -1,9 +1,9 @@
 package server
 
 import (
+	"go-tasker/types"
+	"go-tasker/utils"
 	"net/http"
-	"todolist/types"
-	"todolist/utils"
 )
 
 func (s *Server) GetTasksHandler(w http.ResponseWriter, r *http.Request) {

@@ -1,9 +1,9 @@
-# To-do list
+# GoTasker
 
 <div>
   <img align="right" src="./gopher.png" height="100" alt="Gopher">
   <p align="justify">
-  This project is a Go-based REST API that allows users to manage to-do lists through a simple and intuitive interface. It features a robust backend with an SQLite database and includes functionalities for dealing with to-do lists. The project also includes a comprehensive set of integration tests and a Makefile for easy building and testing. The project is designed with clean, maintainable code and follows best practices for structuring Go applications.
+    GoTasker is a Go-based REST API that helps users manage tasks with a simple, intuitive interface. It features an SQLite database for storing tasks and includes all the essential functions for creating, updating, and deleting tasks. The project follows best practices in Go development, with clean, easy-to-maintain code. It also includes integration tests and a Makefile to simplify building and testing.
   </p>
 </div>
 
@@ -12,7 +12,7 @@ Developed with Go 1.22, utilising the updated ["net/http"](https://go.dev/blog/r
 ## Features
 
 - Routing with the latest "net/http" package enhancements for Go 1.22
-- Endpoints for managing to-do lists
+- Endpoints for managing lists
 - Endpoints for managing tasks
 - Integration tests for all endpoints
 - SQLite database support
@@ -90,9 +90,9 @@ This project uses the following tools:
 - [x] GORM
 - [x] Set up for Test Driven Development
 - [x] Lists
-  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/lists_handlers_test.go)
+  - [x] Integration Tests
 - [x] Tasks
-  - [x] [Integration Tests](https://github.com/thefactus/todo-list/blob/main/tests/tasks_handlers_test.go)
+  - [x] Integration Tests
 - [ ] Authentication
   - [ ] Integration Tests
 - [ ] Databases support
