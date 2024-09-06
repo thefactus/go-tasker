@@ -93,13 +93,10 @@ This project uses the following tools:
   - [x] Integration Tests
 - [x] Tasks
   - [x] Integration Tests
-- [ ] Authentication
-  - [ ] Integration Tests
 - [ ] Databases support
   - [x] SQLite
   - [ ] PostgreSQL
 - [x] Add go-playground/validator
 - [ ] Add a custom Logger package
 - [ ] Add Swagger
-- [ ] Add Go Docs
-- [ ] Improve code duplication
+- [x] Add Go Docs
