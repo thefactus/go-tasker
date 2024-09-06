@@ -13,7 +13,7 @@ import (
 // @Produce json
 // @Success 200 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists [get]
+// @Router /api/v1/lists [get]
 func (s *Server) GetListsHandler(w http.ResponseWriter, r *http.Request) {
 	lists, err := s.db.GetLists()
 	if err != nil {
@@ -36,7 +36,7 @@ func (s *Server) GetListsHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 201 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists [post]
+// @Router /api/v1/lists [post]
 func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 	var createListPayload types.CreateListPayload
 	if err := utils.ParseAndValidateJSON(w, r, &createListPayload); err != nil {
@@ -65,7 +65,7 @@ func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{id} [put]
+// @Router /api/v1/lists/{id} [put]
 func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 	listID := r.PathValue("id")
 
@@ -95,7 +95,7 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{id} [delete]
+// @Router /api/v1/lists/{id} [delete]
 func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
 	listID := r.PathValue("id")
 

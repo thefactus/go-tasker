@@ -14,7 +14,7 @@ import (
 // @Param listID path string true "List ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{listID}/tasks [get]
+// @Router /api/v1/lists/{listID}/tasks [get]
 func (s *Server) GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 	taskID := r.PathValue("listID")
 	tasks, err := s.db.GetTasks(taskID)
@@ -39,7 +39,7 @@ func (s *Server) GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 201 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{listID}/tasks [post]
+// @Router /api/v1/lists/{listID}/tasks [post]
 func (s *Server) PostTasksHandler(w http.ResponseWriter, r *http.Request) {
 	taskID := r.PathValue("listID")
 
@@ -70,7 +70,7 @@ func (s *Server) PostTasksHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{listID}/tasks/{taskID} [put]
+// @Router /api/v1/lists/{listID}/tasks/{taskID} [put]
 func (s *Server) PutTaskHandler(w http.ResponseWriter, r *http.Request) {
 	taskID := r.PathValue("taskID")
 
@@ -98,7 +98,7 @@ func (s *Server) PutTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{listID}/tasks/{taskID} [delete]
+// @Router /api/v1/lists/{listID}/tasks/{taskID} [delete]
 func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	taskID := r.PathValue("taskID")
 
@@ -124,7 +124,7 @@ func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{listID}/tasks/{taskID}/done [patch]
+// @Router /api/v1/lists/{listID}/tasks/{taskID}/done [patch]
 func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 	taskID := r.PathValue("taskID")
 
@@ -153,7 +153,7 @@ func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /lists/{listID}/tasks/{taskID}/undone [patch]
+// @Router /api/v1/lists/{listID}/tasks/{taskID}/undone [patch]
 func (s *Server) PatchTaskUndoneHandler(w http.ResponseWriter, r *http.Request) {
 	taskID := r.PathValue("taskID")
 
