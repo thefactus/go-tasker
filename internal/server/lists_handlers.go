@@ -6,6 +6,14 @@ import (
 	"net/http"
 )
 
+// GetListsHandler godoc
+// @Summary Get all lists
+// @Description Get all lists
+// @Tags lists
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /lists [get]
 func (s *Server) GetListsHandler(w http.ResponseWriter, r *http.Request) {
 	lists, err := s.db.GetLists()
 	if err != nil {
@@ -18,6 +26,17 @@ func (s *Server) GetListsHandler(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, response)
 }
 
+// PostListsHandler godoc
+// @Summary Create a new list
+// @Description Create a new list
+// @Tags lists
+// @Accept json
+// @Produce json
+// @Param list body types.CreateListPayload true "Create List Payload"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /lists [post]
 func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 	var createListPayload types.CreateListPayload
 	if err := utils.ParseAndValidateJSON(w, r, &createListPayload); err != nil {
@@ -35,6 +54,18 @@ func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusCreated, response)
 }
 
+// PutListHandler godoc
+// @Summary Update a list
+// @Description Update a list
+// @Tags lists
+// @Accept json
+// @Produce json
+// @Param id path string true "List ID"
+// @Param list body types.UpdateListPayload true "Update List Payload"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /lists/{id} [put]
 func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 	listID := r.PathValue("id")
 
@@ -47,7 +78,6 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 	// Update the list
 	list, err := s.db.UpdateList(listID, updateListPayload)
 	if err != nil {
-		// maybe change this error
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
@@ -57,12 +87,20 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, response)
 }
 
+// DeleteListHandler godoc
+// @Summary Delete a list
+// @Description Delete a list
+// @Tags lists
+// @Param id path string true "List ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /lists/{id} [delete]
 func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
 	listID := r.PathValue("id")
 
 	err := s.db.DeleteList(listID)
 	if err != nil {
-		// maybe change this error
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
