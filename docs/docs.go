@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/lists": {
+        "/api/v1/lists": {
             "get": {
                 "description": "Get all lists",
                 "produces": [
@@ -90,7 +90,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/lists/{id}": {
+        "/api/v1/lists/{id}": {
             "put": {
                 "description": "Update a list",
                 "consumes": [
@@ -185,7 +185,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/lists/{listID}/tasks": {
+        "/api/v1/lists/{listID}/tasks": {
             "get": {
                 "description": "Get all tasks for a list",
                 "produces": [
@@ -276,7 +276,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/lists/{listID}/tasks/{taskID}": {
+        "/api/v1/lists/{listID}/tasks/{taskID}": {
             "put": {
                 "description": "Update a task",
                 "consumes": [
@@ -371,7 +371,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/lists/{listID}/tasks/{taskID}/done": {
+        "/api/v1/lists/{listID}/tasks/{taskID}/done": {
             "patch": {
                 "description": "Mark a task as done",
                 "consumes": [
@@ -427,7 +427,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/lists/{listID}/tasks/{taskID}/undone": {
+        "/api/v1/lists/{listID}/tasks/{taskID}/undone": {
             "patch": {
                 "description": "Mark a task as undone",
                 "consumes": [

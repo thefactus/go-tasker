@@ -37,7 +37,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /lists:
+  /api/v1/lists:
     get:
       description: Get all lists
       produces:
@@ -88,7 +88,7 @@ paths:
       summary: Create a new list
       tags:
       - lists
-  /lists/{id}:
+  /api/v1/lists/{id}:
     delete:
       description: Delete a list
       parameters:
@@ -153,7 +153,7 @@ paths:
       summary: Update a list
       tags:
       - lists
-  /lists/{listID}/tasks:
+  /api/v1/lists/{listID}/tasks:
     get:
       description: Get all tasks for a list
       parameters:
@@ -215,7 +215,7 @@ paths:
       summary: Create a new task for a list
       tags:
       - tasks
-  /lists/{listID}/tasks/{taskID}:
+  /api/v1/lists/{listID}/tasks/{taskID}:
     delete:
       description: Delete a task
       parameters:
@@ -280,7 +280,7 @@ paths:
       summary: Update a task
       tags:
       - tasks
-  /lists/{listID}/tasks/{taskID}/done:
+  /api/v1/lists/{listID}/tasks/{taskID}/done:
     patch:
       consumes:
       - application/json
@@ -318,7 +318,7 @@ paths:
       summary: Mark a task as done
       tags:
       - tasks
-  /lists/{listID}/tasks/{taskID}/undone:
+  /api/v1/lists/{listID}/tasks/{taskID}/undone:
     patch:
       consumes:
       - application/json

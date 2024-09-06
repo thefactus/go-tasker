@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/lists": {
+        "/api/v1/lists": {
             "get": {
                 "description": "Get all lists",
                 "produces": [
@@ -79,7 +79,7 @@
                 }
             }
         },
-        "/lists/{id}": {
+        "/api/v1/lists/{id}": {
             "put": {
                 "description": "Update a list",
                 "consumes": [
@@ -174,7 +174,7 @@
                 }
             }
         },
-        "/lists/{listID}/tasks": {
+        "/api/v1/lists/{listID}/tasks": {
             "get": {
                 "description": "Get all tasks for a list",
                 "produces": [
@@ -265,7 +265,7 @@
                 }
             }
         },
-        "/lists/{listID}/tasks/{taskID}": {
+        "/api/v1/lists/{listID}/tasks/{taskID}": {
             "put": {
                 "description": "Update a task",
                 "consumes": [
@@ -360,7 +360,7 @@
                 }
             }
         },
-        "/lists/{listID}/tasks/{taskID}/done": {
+        "/api/v1/lists/{listID}/tasks/{taskID}/done": {
             "patch": {
                 "description": "Mark a task as done",
                 "consumes": [
@@ -416,7 +416,7 @@
                 }
             }
         },
-        "/lists/{listID}/tasks/{taskID}/undone": {
+        "/api/v1/lists/{listID}/tasks/{taskID}/undone": {
             "patch": {
                 "description": "Mark a task as undone",
                 "consumes": [
