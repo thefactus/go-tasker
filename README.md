@@ -97,6 +97,6 @@ This project uses the following tools:
   - [x] SQLite
   - [ ] PostgreSQL
 - [x] Add go-playground/validator
-- [ ] Add a custom Logger package
-- [ ] Add Swagger
+- [x] Add Swagger
 - [x] Add Go Docs
+- [ ] Add a custom Logger package

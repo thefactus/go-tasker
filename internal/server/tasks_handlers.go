@@ -120,7 +120,6 @@ func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param taskID path string true "Task ID"
-// @Param task body types.UpdateTaskDonePayload true "Update Task Done Payload"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
@@ -149,7 +148,6 @@ func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param taskID path string true "Task ID"
-// @Param task body types.UpdateTaskDonePayload true "Update Task Done Payload"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
