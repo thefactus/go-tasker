@@ -35,6 +35,7 @@ func AddListsHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
 	mux.HandleFunc("POST "+apiVersion+"/lists", s.PostListsHandler)
 	mux.HandleFunc("PUT "+apiVersion+"/lists/{id}", s.PutListHandler)
 	mux.HandleFunc("DELETE "+apiVersion+"/lists/{id}", s.DeleteListHandler)
+	mux.HandleFunc("GET "+apiVersion+"/projects/{projectID}/lists", s.GetListsByProjectHandler)
 }
 
 func AddTasksHandlers(mux *http.ServeMux, s *Server, apiVersion string) {

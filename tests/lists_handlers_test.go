@@ -165,4 +165,40 @@ func TestLists(t *testing.T) {
 		assert.Equal(t, result["message"], "List deleted successfully",
 			"Expected message to be 'List deleted successfully'")
 	})
+
+	t.Run("expects to get lists by project", func(t *testing.T) {
+		clearTableLists()
+
+		payload := []byte(`{"title": "Project 1", "status": "not started"}`)
+		req, _ := http.NewRequest("POST", "/api/v1/projects", bytes.NewReader(payload))
+		response := executeRequest(req)
+
+		checkResponseCode(t, http.StatusCreated, response.Code)
+
+		payload = []byte(`{"title": "Tasks", "project_id": 1}`)
+		req, _ = http.NewRequest("POST", "/api/v1/lists", bytes.NewReader(payload))
+		response = executeRequest(req)
+
+		checkResponseCode(t, http.StatusCreated, response.Code)
+
+		req, _ = http.NewRequest("GET", "/api/v1/projects/1/lists", nil)
+		response = executeRequest(req)
+
+		checkResponseCode(t, http.StatusOK, response.Code)
+
+		var actual Response
+		json.Unmarshal(response.Body.Bytes(), &actual)
+
+		for _, item := range actual.Data {
+			list, ok := item.(map[string]interface{})
+			if !ok {
+				t.Errorf("Expected list item to be a map. Got '%v'", item)
+			}
+
+			assert.Equal(t, float64(1), list["id"], "Expected id to be 1")
+			assert.Equal(t, "Tasks", list["title"], "Expected title to be 'Tasks'")
+			assert.Equal(t, float64(1), list["project_id"], "Expected project_id to be 1")
+			assert.NotNil(t, list["created_at"], "Expected 'created_at' field to be present")
+		}
+	})
 }

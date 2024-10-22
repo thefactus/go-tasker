@@ -109,3 +109,26 @@ func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
 
 	utils.WriteJSON(w, http.StatusOK, response)
 }
+
+// GetListsByProjectHandler godoc
+// @Summary Get all lists by project
+// @Description Get all lists by project
+// @Tags lists
+// @Produce json
+// @Param projectID path string true "Project ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /api/v1/projects/{projectID}/lists [get]
+func (s *Server) GetListsByProjectHandler(w http.ResponseWriter, r *http.Request) {
+	projectID := r.PathValue("projectID")
+
+	lists, err := s.db.GetListsByProject(projectID)
+	if err != nil {
+		http.Error(w, "Error getting lists by project", http.StatusInternalServerError)
+		return
+	}
+
+	response := utils.PrepareJSONWithMessage("Lists retrieved successfully", lists)
+
+	utils.WriteJSON(w, http.StatusOK, response)
+}

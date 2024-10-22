@@ -27,6 +27,7 @@ type Service interface {
 	CreateProject(payload types.CreateProjectPayload) (*schemas.Project, error)
 	UpdateProject(projectID string, payload types.UpdateProjectPayload) (*schemas.Project, error)
 	DeleteProject(projectID string) error
+	GetListsByProject(projectID string) ([]schemas.List, error)
 }
 
 type service struct {

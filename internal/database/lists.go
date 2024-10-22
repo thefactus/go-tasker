@@ -53,3 +53,11 @@ func (s *service) DeleteList(listID string) error {
 
 	return nil
 }
+
+func (s *service) GetListsByProject(projectID string) ([]schemas.List, error) {
+	var lists []schemas.List
+	if err := s.db.Where("project_id = ?", projectID).Find(&lists).Error; err != nil {
+		return nil, err
+	}
+	return lists, nil
+}
