@@ -20,3 +20,13 @@ type UpdateTaskPayload struct {
 type UpdateTaskDonePayload struct {
 	Done bool `json:"done"`
 }
+
+type CreateProjectPayload struct {
+	Title  string `json:"title" validate:"required"`
+	Status string `json:"status" validate:"required"`
+}
+
+type UpdateProjectPayload struct {
+	Title  string `json:"title" validate:"required"`
+	Status string `json:"status" validate:"required"`
+}

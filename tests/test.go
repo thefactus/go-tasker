@@ -31,12 +31,23 @@ func clearTableLists() {
 func clearTableTasksAndLists() {
 	db.Exec("DELETE FROM tasks")
 	db.Exec("DELETE FROM lists")
+	db.Exec("DELETE FROM projects")
 	db.Exec("DELETE FROM sqlite_sequence WHERE name='tasks'") // sqlite3
 	db.Exec("DELETE FROM sqlite_sequence WHERE name='lists'") // sqlite3
+	db.Exec("DELETE FROM sqlite_sequence WHERE name='projects'") // sqlite3
 	// db.Exec("ALTER SEQUENCE tasks_id_seq RESTART WITH 1")  // postgres
 	// db.Exec("ALTER SEQUENCE lists_id_seq RESTART WITH 1")  // postgres
+	// db.Exec("ALTER SEQUENCE projects_id_seq RESTART WITH 1")  // postgres
 	// db.Exec("ALTER TABLE tasks AUTO_INCREMENT = 1")        // mysql
 	// db.Exec("ALTER TABLE lists AUTO_INCREMENT = 1")        // mysql
+	// db.Exec("ALTER TABLE projects AUTO_INCREMENT = 1")        // mysql
+}
+
+func clearTableProjects() {
+	db.Exec("DELETE FROM projects")
+	db.Exec("DELETE FROM sqlite_sequence WHERE name='projects'") // sqlite3
+	// db.Exec("ALTER SEQUENCE projects_id_seq RESTART WITH 1")  // postgres
+	// db.Exec("ALTER TABLE projects AUTO_INCREMENT = 1")        // mysql
 }
 
 func getDB() *gorm.DB {
