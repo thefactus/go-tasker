@@ -1,0 +1,7 @@
+{
+  "tasks": {
+    "test": "make test",
+    "build": "make build",
+    "launch": "make run"
+  }
+}

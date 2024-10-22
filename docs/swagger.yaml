@@ -6,6 +6,20 @@ definitions:
     required:
     - title
     type: object
+  types.CreateProjectPayload:
+    properties:
+      status:
+        enum:
+        - not started
+        - in progress
+        - completed
+        type: string
+      title:
+        type: string
+    required:
+    - status
+    - title
+    type: object
   types.CreateTaskPayload:
     properties:
       title:
@@ -20,10 +34,19 @@ definitions:
     required:
     - title
     type: object
-  types.UpdateTaskDonePayload:
+  types.UpdateProjectPayload:
     properties:
-      done:
-        type: boolean
+      status:
+        enum:
+        - not started
+        - in progress
+        - completed
+        type: string
+      title:
+        type: string
+    required:
+    - status
+    - title
     type: object
   types.UpdateTaskPayload:
     properties:
@@ -291,12 +314,6 @@ paths:
         name: taskID
         required: true
         type: string
-      - description: Update Task Done Payload
-        in: body
-        name: task
-        required: true
-        schema:
-          $ref: '#/definitions/types.UpdateTaskDonePayload'
       produces:
       - application/json
       responses:
@@ -329,12 +346,6 @@ paths:
         name: taskID
         required: true
         type: string
-      - description: Update Task Done Payload
-        in: body
-        name: task
-        required: true
-        schema:
-          $ref: '#/definitions/types.UpdateTaskDonePayload'
       produces:
       - application/json
       responses:
@@ -356,4 +367,120 @@ paths:
       summary: Mark a task as undone
       tags:
       - tasks
+  /api/v1/projects:
+    get:
+      description: Get all projects
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all projects
+      tags:
+      - projects
+    post:
+      consumes:
+      - application/json
+      description: Create a new project
+      parameters:
+      - description: Create Project Payload
+        in: body
+        name: project
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new project
+      tags:
+      - projects
+  /api/v1/projects/{id}:
+    delete:
+      description: Delete a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a project
+      tags:
+      - projects
+    put:
+      consumes:
+      - application/json
+      description: Update a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Project Payload
+        in: body
+        name: project
+        required: true
+        schema:
+          $ref: '#/definitions/types.UpdateProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a project
+      tags:
+      - projects
 swagger: "2.0"

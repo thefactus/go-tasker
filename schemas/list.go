@@ -6,5 +6,6 @@ import (
 
 type List struct {
 	gorm.Model
-	Title string
+	Title     string
+	ProjectID uint
 }
