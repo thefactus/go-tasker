@@ -1,3 +1,4 @@
+.PHONY: default run build test docs clean
 # Simple Makefile for a Go project
 
 # Build the application
@@ -7,6 +8,11 @@ build:
 	@echo "Building..."
 	
 	@go build -o main main.go
+
+# Run the application with docs
+run-with-docs:
+	@swag init
+	@go run main.go
 
 # Run the application
 run:
@@ -21,6 +27,10 @@ test:
 clean:
 	@echo "Cleaning..."
 	@rm -f main
+
+# Generate Swagger docs
+docs:
+	@swag init
 
 # Live Reload
 watch:
