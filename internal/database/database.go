@@ -23,6 +23,10 @@ type Service interface {
 	UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error)
 	DeleteTask(taskID string) error
 	DeleteAllTasks(listID string) error
+	GetProjects() ([]schemas.Project, error)
+	CreateProject(payload types.CreateProjectPayload) (*schemas.Project, error)
+	UpdateProject(projectID string, payload types.UpdateProjectPayload) (*schemas.Project, error)
+	DeleteProject(projectID string) error
 }
 
 type service struct {
@@ -53,6 +57,11 @@ func New() Service {
 	}
 
 	err = db.AutoMigrate(&schemas.Task{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.AutoMigrate(&schemas.Project{})
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -18,6 +18,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	AddListsHandlers(mux, s, apiV1)
 	AddTasksHandlers(mux, s, apiV1)
+	AddProjectsHandlers(mux, s, apiV1)
 	AddSwaggerHandler(mux)
 
 	return mux
@@ -43,6 +44,13 @@ func AddTasksHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
 	mux.HandleFunc("DELETE "+apiVersion+"/lists/{listID}/tasks/{taskID}", s.DeleteTaskHandler)
 	mux.HandleFunc("PATCH "+apiVersion+"/lists/{listID}/tasks/{taskID}/done", s.PatchTaskDoneHandler)
 	mux.HandleFunc("PATCH "+apiVersion+"/lists/{listID}/tasks/{taskID}/undone", s.PatchTaskUndoneHandler)
+}
+
+func AddProjectsHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
+	mux.HandleFunc("GET "+apiVersion+"/projects", s.GetProjectsHandler)
+	mux.HandleFunc("POST "+apiVersion+"/projects", s.PostProjectsHandler)
+	mux.HandleFunc("PUT "+apiVersion+"/projects/{id}", s.PutProjectHandler)
+	mux.HandleFunc("DELETE "+apiVersion+"/projects/{id}", s.DeleteProjectHandler)
 }
 
 func (s *Server) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
