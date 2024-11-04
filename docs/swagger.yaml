@@ -475,4 +475,29 @@ paths:
       summary: Update a project
       tags:
       - projects
+  /api/v1/projects/{projectID}/lists:
+    get:
+      description: Get all lists by project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all lists by project
+      tags:
+      - lists
 swagger: "2.0"
