@@ -6,7 +6,7 @@ all: build
 
 build:
 	@echo "Building..."
-	
+
 	@go build -o main main.go
 
 # Run the application with docs
@@ -48,5 +48,3 @@ watch:
 	        exit 1; \
 	    fi; \
 	fi
-
-.PHONY: all build run test clean
