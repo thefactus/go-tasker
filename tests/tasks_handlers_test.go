@@ -385,3 +385,4 @@ func TestTasks(t *testing.T) {
 		response = executeRequest(req)
 		checkResponseCode(t, http.StatusNotFound, response.Code)
 	})
+}
