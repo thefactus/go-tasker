@@ -6,7 +6,12 @@ import (
 	"strconv"
 )
 
-func (s *service) GetTasks(listID string) ([]schemas.Task, error) {
+func (s *service) GetTasks(projectID string, listID string) ([]schemas.Task, error) {
+	var list schemas.List
+	if err := s.db.Where("id = ? AND project_id = ?", listID, projectID).First(&list).Error; err != nil {
+		return nil, err
+	}
+
 	var tasks []schemas.Task
 	if err := s.db.Where("list_id = ?", listID).Find(&tasks).Error; err != nil {
 		return nil, err
@@ -14,7 +19,12 @@ func (s *service) GetTasks(listID string) ([]schemas.Task, error) {
 	return tasks, nil
 }
 
-func (s *service) CreateTask(listID string, payload types.CreateTaskPayload) (*schemas.Task, error) {
+func (s *service) CreateTask(projectID string, listID string, payload types.CreateTaskPayload) (*schemas.Task, error) {
+	var list schemas.List
+	if err := s.db.Where("id = ? AND project_id = ?", listID, projectID).First(&list).Error; err != nil {
+		return nil, err
+	}
+
 	listIDUint, err := strconv.ParseUint(listID, 10, 64)
 	if err != nil {
 		return nil, err
@@ -22,10 +32,9 @@ func (s *service) CreateTask(listID string, payload types.CreateTaskPayload) (*s
 
 	task := schemas.Task{
 		Title:  payload.Title,
-		ListID: uint(listIDUint), // Convert listID to uint type
+		ListID: uint(listIDUint),
 	}
 
-	// Create the task in the database
 	if err := s.db.Create(&task).Error; err != nil {
 		return nil, err
 	}
@@ -33,9 +42,11 @@ func (s *service) CreateTask(listID string, payload types.CreateTaskPayload) (*s
 	return &task, nil
 }
 
-func (s *service) UpdateTask(taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error) {
+func (s *service) UpdateTask(projectID string, listID string, taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error) {
 	var task schemas.Task
-	if err := s.db.First(&task, taskID).Error; err != nil {
+	if err := s.db.Joins("JOIN lists ON lists.id = tasks.list_id").
+		Where("tasks.id = ? AND tasks.list_id = ? AND lists.project_id = ?", taskID, listID, projectID).
+		First(&task).Error; err != nil {
 		return nil, err
 	}
 
@@ -49,9 +60,11 @@ func (s *service) UpdateTask(taskID string, payload types.UpdateTaskPayload) (*s
 	return &task, nil
 }
 
-func (s *service) UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error) {
+func (s *service) UpdateTaskDone(projectID string, listID string, taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error) {
 	var task schemas.Task
-	if err := s.db.First(&task, taskID).Error; err != nil {
+	if err := s.db.Joins("JOIN lists ON lists.id = tasks.list_id").
+		Where("tasks.id = ? AND tasks.list_id = ? AND lists.project_id = ?", taskID, listID, projectID).
+		First(&task).Error; err != nil {
 		return nil, err
 	}
 
@@ -64,9 +77,11 @@ func (s *service) UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayl
 	return &task, nil
 }
 
-func (s *service) DeleteTask(taskID string) error {
+func (s *service) DeleteTask(projectID string, listID string, taskID string) error {
 	var task schemas.Task
-	if err := s.db.First(&task, taskID).Error; err != nil {
+	if err := s.db.Joins("JOIN lists ON lists.id = tasks.list_id").
+		Where("tasks.id = ? AND tasks.list_id = ? AND lists.project_id = ?", taskID, listID, projectID).
+		First(&task).Error; err != nil {
 		return err
 	}
 
@@ -74,12 +89,5 @@ func (s *service) DeleteTask(taskID string) error {
 		return err
 	}
 
-	return nil
-}
-
-func (s *service) DeleteAllTasks(listID string) error {
-	if err := s.db.Where("list_id = ?", listID).Delete(&schemas.Task{}).Error; err != nil {
-		return err
-	}
 	return nil
 }

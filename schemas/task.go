@@ -1,3 +1,4 @@
+// Updated schemas/task.go
 package schemas
 
 import (
@@ -9,4 +10,5 @@ type Task struct {
 	Title  string
 	Done   bool
 	ListID uint
+	List   List `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

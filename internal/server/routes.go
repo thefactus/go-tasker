@@ -31,20 +31,20 @@ func AddSwaggerHandler(mux *http.ServeMux) {
 }
 
 func AddListsHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
-	mux.HandleFunc("GET "+apiVersion+"/lists", s.GetListsHandler)
-	mux.HandleFunc("POST "+apiVersion+"/lists", s.PostListsHandler)
-	mux.HandleFunc("PUT "+apiVersion+"/lists/{id}", s.PutListHandler)
-	mux.HandleFunc("DELETE "+apiVersion+"/lists/{id}", s.DeleteListHandler)
-	mux.HandleFunc("GET "+apiVersion+"/projects/{projectID}/lists", s.GetListsByProjectHandler)
+	mux.HandleFunc("GET "+apiVersion+"/projects/{projectID}/lists", s.GetListsHandler)
+	mux.HandleFunc("GET "+apiVersion+"/projects/{projectID}/lists/{id}", s.GetListHandler)
+	mux.HandleFunc("POST "+apiVersion+"/projects/{projectID}/lists", s.PostListsHandler)
+	mux.HandleFunc("PUT "+apiVersion+"/projects/{projectID}/lists/{id}", s.PutListHandler)
+	mux.HandleFunc("DELETE "+apiVersion+"/projects/{projectID}/lists/{id}", s.DeleteListHandler)
 }
 
 func AddTasksHandlers(mux *http.ServeMux, s *Server, apiVersion string) {
-	mux.HandleFunc("GET "+apiVersion+"/lists/{listID}/tasks", s.GetTasksHandler)
-	mux.HandleFunc("POST "+apiVersion+"/lists/{listID}/tasks", s.PostTasksHandler)
-	mux.HandleFunc("PUT "+apiVersion+"/lists/{listID}/tasks/{taskID}", s.PutTaskHandler)
-	mux.HandleFunc("DELETE "+apiVersion+"/lists/{listID}/tasks/{taskID}", s.DeleteTaskHandler)
-	mux.HandleFunc("PATCH "+apiVersion+"/lists/{listID}/tasks/{taskID}/done", s.PatchTaskDoneHandler)
-	mux.HandleFunc("PATCH "+apiVersion+"/lists/{listID}/tasks/{taskID}/undone", s.PatchTaskUndoneHandler)
+	mux.HandleFunc("GET "+apiVersion+"/projects/{projectID}/lists/{listID}/tasks", s.GetTasksHandler)
+	mux.HandleFunc("POST "+apiVersion+"/projects/{projectID}/lists/{listID}/tasks", s.PostTasksHandler)
+	mux.HandleFunc("PUT "+apiVersion+"/projects/{projectID}/lists/{listID}/tasks/{taskID}", s.PutTaskHandler)
+	mux.HandleFunc("DELETE "+apiVersion+"/projects/{projectID}/lists/{listID}/tasks/{taskID}", s.DeleteTaskHandler)
+	mux.HandleFunc("PATCH "+apiVersion+"/projects/{projectID}/lists/{listID}/tasks/{taskID}/done", s.PatchTaskDoneHandler)
+	mux.HandleFunc("PATCH "+apiVersion+"/projects/{projectID}/lists/{listID}/tasks/{taskID}/undone", s.PatchTaskUndoneHandler)
 }
 
 func AddProjectsHandlers(mux *http.ServeMux, s *Server, apiVersion string) {

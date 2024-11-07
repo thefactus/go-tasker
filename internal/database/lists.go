@@ -3,22 +3,36 @@ package database
 import (
 	"go-tasker/schemas"
 	"go-tasker/types"
+	"strconv"
 )
 
-func (s *service) GetLists() ([]schemas.List, error) {
+func (s *service) GetLists(projectID string) ([]schemas.List, error) {
 	var lists []schemas.List
-	if err := s.db.Find(&lists).Error; err != nil {
+	if err := s.db.Where("project_id = ?", projectID).Find(&lists).Error; err != nil {
 		return nil, err
 	}
 	return lists, nil
 }
 
-func (s *service) CreateList(payload types.CreateListPayload) (*schemas.List, error) {
-	list := schemas.List{
-		Title: payload.Title,
+func (s *service) GetList(projectID string, listID string) (*schemas.List, error) {
+	var list schemas.List
+	if err := s.db.Where("id = ? AND project_id = ?", listID, projectID).First(&list).Error; err != nil {
+		return nil, err
+	}
+	return &list, nil
+}
+
+func (s *service) CreateList(projectID string, payload types.CreateListPayload) (*schemas.List, error) {
+	projectIDUint, err := strconv.ParseUint(projectID, 10, 64)
+	if err != nil {
+		return nil, err
 	}
 
-	// Create the list in the database
+	list := schemas.List{
+		Title:     payload.Title,
+		ProjectID: uint(projectIDUint),
+	}
+
 	if err := s.db.Create(&list).Error; err != nil {
 		return nil, err
 	}
@@ -26,9 +40,9 @@ func (s *service) CreateList(payload types.CreateListPayload) (*schemas.List, er
 	return &list, nil
 }
 
-func (s *service) UpdateList(listID string, payload types.UpdateListPayload) (*schemas.List, error) {
+func (s *service) UpdateList(projectID string, listID string, payload types.UpdateListPayload) (*schemas.List, error) {
 	var list schemas.List
-	if err := s.db.First(&list, listID).Error; err != nil {
+	if err := s.db.Where("id = ? AND project_id = ?", listID, projectID).First(&list).Error; err != nil {
 		return nil, err
 	}
 
@@ -41,9 +55,9 @@ func (s *service) UpdateList(listID string, payload types.UpdateListPayload) (*s
 	return &list, nil
 }
 
-func (s *service) DeleteList(listID string) error {
+func (s *service) DeleteList(projectID string, listID string) error {
 	var list schemas.List
-	if err := s.db.First(&list, listID).Error; err != nil {
+	if err := s.db.Where("id = ? AND project_id = ?", listID, projectID).First(&list).Error; err != nil {
 		return err
 	}
 
@@ -52,12 +66,4 @@ func (s *service) DeleteList(listID string) error {
 	}
 
 	return nil
-}
-
-func (s *service) GetListsByProject(projectID string) ([]schemas.List, error) {
-	var lists []schemas.List
-	if err := s.db.Where("project_id = ?", projectID).Find(&lists).Error; err != nil {
-		return nil, err
-	}
-	return lists, nil
 }

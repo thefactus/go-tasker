@@ -7,15 +7,18 @@ import (
 )
 
 // GetListsHandler godoc
-// @Summary Get all lists
-// @Description Get all lists
+// @Summary Get all lists for a project
+// @Description Get all lists for a project
 // @Tags lists
 // @Produce json
+// @Param projectID path string true "Project ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/v1/lists [get]
+// @Router /api/v1/projects/{projectID}/lists [get]
 func (s *Server) GetListsHandler(w http.ResponseWriter, r *http.Request) {
-	lists, err := s.db.GetLists()
+	projectID := r.PathValue("projectID")
+
+	lists, err := s.db.GetLists(projectID)
 	if err != nil {
 		http.Error(w, "Error getting lists", http.StatusInternalServerError)
 		return
@@ -27,23 +30,26 @@ func (s *Server) GetListsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // PostListsHandler godoc
-// @Summary Create a new list
-// @Description Create a new list
+// @Summary Create a new list within a project
+// @Description Create a new list within a project
 // @Tags lists
 // @Accept json
 // @Produce json
+// @Param projectID path string true "Project ID"
 // @Param list body types.CreateListPayload true "Create List Payload"
 // @Success 201 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/v1/lists [post]
+// @Router /api/v1/projects/{projectID}/lists [post]
 func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
+	projectID := r.PathValue("projectID")
+
 	var createListPayload types.CreateListPayload
 	if err := utils.ParseAndValidateJSON(w, r, &createListPayload); err != nil {
 		return
 	}
 
-	list, err := s.db.CreateList(createListPayload)
+	list, err := s.db.CreateList(projectID, createListPayload)
 	if err != nil {
 		utils.WriteInternalServerError(w, err)
 		return
@@ -55,28 +61,28 @@ func (s *Server) PostListsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // PutListHandler godoc
-// @Summary Update a list
-// @Description Update a list
+// @Summary Update a list within a project
+// @Description Update a list within a project
 // @Tags lists
 // @Accept json
 // @Produce json
+// @Param projectID path string true "Project ID"
 // @Param id path string true "List ID"
 // @Param list body types.UpdateListPayload true "Update List Payload"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/v1/lists/{id} [put]
+// @Router /api/v1/projects/{projectID}/lists/{id} [put]
 func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
+	projectID := r.PathValue("projectID")
 	listID := r.PathValue("id")
 
-	// Parse the request body
 	var updateListPayload types.UpdateListPayload
 	if err := utils.ParseAndValidateJSON(w, r, &updateListPayload); err != nil {
 		return
 	}
 
-	// Update the list
-	list, err := s.db.UpdateList(listID, updateListPayload)
+	list, err := s.db.UpdateList(projectID, listID, updateListPayload)
 	if err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
@@ -88,18 +94,20 @@ func (s *Server) PutListHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeleteListHandler godoc
-// @Summary Delete a list
-// @Description Delete a list
+// @Summary Delete a list within a project
+// @Description Delete a list within a project
 // @Tags lists
+// @Param projectID path string true "Project ID"
 // @Param id path string true "List ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/v1/lists/{id} [delete]
+// @Router /api/v1/projects/{projectID}/lists/{id} [delete]
 func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
+	projectID := r.PathValue("projectID")
 	listID := r.PathValue("id")
 
-	err := s.db.DeleteList(listID)
+	err := s.db.DeleteList(projectID, listID)
 	if err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
@@ -110,25 +118,28 @@ func (s *Server) DeleteListHandler(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, response)
 }
 
-// GetListsByProjectHandler godoc
-// @Summary Get all lists by project
-// @Description Get all lists by project
+// GetListHandler godoc
+// @Summary Get a specific list within a project
+// @Description Get a specific list within a project
 // @Tags lists
 // @Produce json
 // @Param projectID path string true "Project ID"
+// @Param id path string true "List ID"
 // @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
-// @Router /api/v1/projects/{projectID}/lists [get]
-func (s *Server) GetListsByProjectHandler(w http.ResponseWriter, r *http.Request) {
+// @Router /api/v1/projects/{projectID}/lists/{id} [get]
+func (s *Server) GetListHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")
+	listID := r.PathValue("id")
 
-	lists, err := s.db.GetListsByProject(projectID)
+	list, err := s.db.GetList(projectID, listID)
 	if err != nil {
-		http.Error(w, "Error getting lists by project", http.StatusInternalServerError)
+		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
-	response := utils.PrepareJSONWithMessage("Lists retrieved successfully", lists)
+	response := utils.PrepareJSONWithMessage("List retrieved successfully", list)
 
 	utils.WriteJSON(w, http.StatusOK, response)
 }

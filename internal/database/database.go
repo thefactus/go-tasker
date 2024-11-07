@@ -13,21 +13,22 @@ import (
 )
 
 type Service interface {
-	GetLists() ([]schemas.List, error)
-	CreateList(payload types.CreateListPayload) (*schemas.List, error)
-	UpdateList(listID string, payload types.UpdateListPayload) (*schemas.List, error)
-	DeleteList(listID string) error
-	GetTasks(listID string) ([]schemas.Task, error)
-	CreateTask(listID string, payload types.CreateTaskPayload) (*schemas.Task, error)
-	UpdateTask(taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error)
-	UpdateTaskDone(taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error)
-	DeleteTask(taskID string) error
-	DeleteAllTasks(listID string) error
+	GetLists(projectID string) ([]schemas.List, error)
+	GetList(projectID string, listID string) (*schemas.List, error)
+	CreateList(projectID string, payload types.CreateListPayload) (*schemas.List, error)
+	UpdateList(projectID string, listID string, payload types.UpdateListPayload) (*schemas.List, error)
+	DeleteList(projectID string, listID string) error
+
+	GetTasks(projectID string, listID string) ([]schemas.Task, error)
+	CreateTask(projectID string, listID string, payload types.CreateTaskPayload) (*schemas.Task, error)
+	UpdateTask(projectID string, listID string, taskID string, payload types.UpdateTaskPayload) (*schemas.Task, error)
+	UpdateTaskDone(projectID string, listID string, taskID string, payload types.UpdateTaskDonePayload) (*schemas.Task, error)
+	DeleteTask(projectID string, listID string, taskID string) error
+
 	GetProjects() ([]schemas.Project, error)
 	CreateProject(payload types.CreateProjectPayload) (*schemas.Project, error)
 	UpdateProject(projectID string, payload types.UpdateProjectPayload) (*schemas.Project, error)
 	DeleteProject(projectID string) error
-	GetListsByProject(projectID string) ([]schemas.List, error)
 }
 
 type service struct {
@@ -51,19 +52,16 @@ func New() Service {
 		log.Fatal(err)
 	}
 
-	// Migrate the Schema
-	err = db.AutoMigrate(&schemas.List{})
-	if err != nil {
+	// Migrate the Schemas
+	if err := db.AutoMigrate(&schemas.List{}); err != nil {
 		log.Fatal(err)
 	}
 
-	err = db.AutoMigrate(&schemas.Task{})
-	if err != nil {
+	if err := db.AutoMigrate(&schemas.Task{}); err != nil {
 		log.Fatal(err)
 	}
 
-	err = db.AutoMigrate(&schemas.Project{})
-	if err != nil {
+	if err := db.AutoMigrate(&schemas.Project{}); err != nil {
 		log.Fatal(err)
 	}
 

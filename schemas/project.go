@@ -1,3 +1,4 @@
+// Updated schemas/project.go
 package schemas
 
 import (
@@ -8,5 +9,5 @@ type Project struct {
 	gorm.Model
 	Title  string
 	Status string
-	Lists  []List
+	Lists  []List `gorm:"constraint:OnDelete:CASCADE;"`
 }
