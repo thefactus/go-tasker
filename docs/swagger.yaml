@@ -52,313 +52,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/v1/lists:
-    get:
-      description: Get all lists
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get all lists
-      tags:
-      - lists
-    post:
-      consumes:
-      - application/json
-      description: Create a new list
-      parameters:
-      - description: Create List Payload
-        in: body
-        name: list
-        required: true
-        schema:
-          $ref: '#/definitions/types.CreateListPayload'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Create a new list
-      tags:
-      - lists
-  /api/v1/lists/{id}:
-    delete:
-      description: Delete a list
-      parameters:
-      - description: List ID
-        in: path
-        name: id
-        required: true
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Delete a list
-      tags:
-      - lists
-    put:
-      consumes:
-      - application/json
-      description: Update a list
-      parameters:
-      - description: List ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Update List Payload
-        in: body
-        name: list
-        required: true
-        schema:
-          $ref: '#/definitions/types.UpdateListPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Update a list
-      tags:
-      - lists
-  /api/v1/lists/{listID}/tasks:
-    get:
-      description: Get all tasks for a list
-      parameters:
-      - description: List ID
-        in: path
-        name: listID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get all tasks for a list
-      tags:
-      - tasks
-    post:
-      consumes:
-      - application/json
-      description: Create a new task for a list
-      parameters:
-      - description: List ID
-        in: path
-        name: listID
-        required: true
-        type: string
-      - description: Create Task Payload
-        in: body
-        name: task
-        required: true
-        schema:
-          $ref: '#/definitions/types.CreateTaskPayload'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Create a new task for a list
-      tags:
-      - tasks
-  /api/v1/lists/{listID}/tasks/{taskID}:
-    delete:
-      description: Delete a task
-      parameters:
-      - description: Task ID
-        in: path
-        name: taskID
-        required: true
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Delete a task
-      tags:
-      - tasks
-    put:
-      consumes:
-      - application/json
-      description: Update a task
-      parameters:
-      - description: Task ID
-        in: path
-        name: taskID
-        required: true
-        type: string
-      - description: Update Task Payload
-        in: body
-        name: task
-        required: true
-        schema:
-          $ref: '#/definitions/types.UpdateTaskPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Update a task
-      tags:
-      - tasks
-  /api/v1/lists/{listID}/tasks/{taskID}/done:
-    patch:
-      consumes:
-      - application/json
-      description: Mark a task as done
-      parameters:
-      - description: Task ID
-        in: path
-        name: taskID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Mark a task as done
-      tags:
-      - tasks
-  /api/v1/lists/{listID}/tasks/{taskID}/undone:
-    patch:
-      consumes:
-      - application/json
-      description: Mark a task as undone
-      parameters:
-      - description: Task ID
-        in: path
-        name: taskID
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Mark a task as undone
-      tags:
-      - tasks
   /api/v1/projects:
     get:
       description: Get all projects
@@ -477,7 +170,7 @@ paths:
       - projects
   /api/v1/projects/{projectID}/lists:
     get:
-      description: Get all lists by project
+      description: Get all lists for a project
       parameters:
       - description: Project ID
         in: path
@@ -497,7 +190,394 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get all lists by project
+      summary: Get all lists for a project
       tags:
       - lists
+    post:
+      consumes:
+      - application/json
+      description: Create a new list within a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: Create List Payload
+        in: body
+        name: list
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateListPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new list within a project
+      tags:
+      - lists
+  /api/v1/projects/{projectID}/lists/{id}:
+    delete:
+      description: Delete a list within a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a list within a project
+      tags:
+      - lists
+    get:
+      description: Get a specific list within a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a specific list within a project
+      tags:
+      - lists
+    put:
+      consumes:
+      - application/json
+      description: Update a list within a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update List Payload
+        in: body
+        name: list
+        required: true
+        schema:
+          $ref: '#/definitions/types.UpdateListPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a list within a project
+      tags:
+      - lists
+  /api/v1/projects/{projectID}/lists/{listID}/tasks:
+    get:
+      description: Get all tasks for a list within a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: listID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all tasks for a list within a project
+      tags:
+      - tasks
+    post:
+      consumes:
+      - application/json
+      description: Create a new task for a list within a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: listID
+        required: true
+        type: string
+      - description: Create Task Payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateTaskPayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new task for a list within a project
+      tags:
+      - tasks
+  /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}:
+    delete:
+      description: Delete a task within a list and project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: listID
+        required: true
+        type: string
+      - description: Task ID
+        in: path
+        name: taskID
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a task within a list and project
+      tags:
+      - tasks
+    put:
+      consumes:
+      - application/json
+      description: Update a task within a list and project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: listID
+        required: true
+        type: string
+      - description: Task ID
+        in: path
+        name: taskID
+        required: true
+        type: string
+      - description: Update Task Payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/types.UpdateTaskPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update a task within a list and project
+      tags:
+      - tasks
+  /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}/done:
+    patch:
+      consumes:
+      - application/json
+      description: Mark a task as done within a list and project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: listID
+        required: true
+        type: string
+      - description: Task ID
+        in: path
+        name: taskID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Mark a task as done within a list and project
+      tags:
+      - tasks
+  /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}/undone:
+    patch:
+      consumes:
+      - application/json
+      description: Mark a task as undone within a list and project
+      parameters:
+      - description: Project ID
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: List ID
+        in: path
+        name: listID
+        required: true
+        type: string
+      - description: Task ID
+        in: path
+        name: taskID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Mark a task as undone within a list and project
+      tags:
+      - tasks
 swagger: "2.0"
