@@ -115,7 +115,7 @@ func (s *Server) PutTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Param taskID path string true "Task ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string.interface{}
+// @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID} [delete]
 func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")
@@ -144,7 +144,7 @@ func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Param taskID path string true "Task ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string.interface{}
+// @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}/done [patch]
 func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")
@@ -174,9 +174,9 @@ func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 // @Param projectID path string true "Project ID"
 // @Param listID path string true "List ID"
 // @Param taskID path string true "Task ID"
-// @Success 200 {object} map[string.interface{}
-// @Failure 400 {object} map[string.interface{}
-// @Failure 500 {object} map[string.interface{}
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
 // @Router /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}/undone [patch]
 func (s *Server) PatchTaskUndoneHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")
