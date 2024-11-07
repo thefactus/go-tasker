@@ -1,9 +1,12 @@
 package server
 
 import (
+	"errors"
 	"go-tasker/types"
 	"go-tasker/utils"
 	"net/http"
+
+	"gorm.io/gorm"
 )
 
 // GetTasksHandler godoc
@@ -22,6 +25,10 @@ func (s *Server) GetTasksHandler(w http.ResponseWriter, r *http.Request) {
 
 	tasks, err := s.db.GetTasks(projectID, listID)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			http.Error(w, "List not found", http.StatusNotFound)
+			return
+		}
 		http.Error(w, "Error getting tasks", http.StatusInternalServerError)
 		return
 	}
@@ -108,7 +115,7 @@ func (s *Server) PutTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Param taskID path string true "Task ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
+// @Failure 500 {object} map[string.interface{}
 // @Router /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID} [delete]
 func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")
@@ -137,7 +144,7 @@ func (s *Server) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Param taskID path string true "Task ID"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
+// @Failure 500 {object} map[string.interface{}
 // @Router /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}/done [patch]
 func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")
@@ -167,9 +174,9 @@ func (s *Server) PatchTaskDoneHandler(w http.ResponseWriter, r *http.Request) {
 // @Param projectID path string true "Project ID"
 // @Param listID path string true "List ID"
 // @Param taskID path string true "Task ID"
-// @Success 200 {object} map[string]interface{}
-// @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
+// @Success 200 {object} map[string.interface{}
+// @Failure 400 {object} map[string.interface{}
+// @Failure 500 {object} map[string.interface{}
 // @Router /api/v1/projects/{projectID}/lists/{listID}/tasks/{taskID}/undone [patch]
 func (s *Server) PatchTaskUndoneHandler(w http.ResponseWriter, r *http.Request) {
 	projectID := r.PathValue("projectID")

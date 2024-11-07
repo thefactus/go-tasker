@@ -381,9 +381,9 @@ func TestTasks(t *testing.T) {
 		assert.Equal(t, "List deleted successfully", result["message"])
 
 		// Verify tasks are deleted
-		// req, _ = http.NewRequest("GET", "/api/v1/projects/"+projectID+"/lists/"+listID+"/tasks", nil)
-		// response = executeRequest(req)
-		// checkResponseCode(t, http.StatusNotFound, response.Code)
+		req, _ = http.NewRequest("GET", "/api/v1/projects/"+projectID+"/lists/"+listID+"/tasks", nil)
+		response = executeRequest(req)
+		checkResponseCode(t, http.StatusNotFound, response.Code)
 	})
 
 	// t.Run("expects to get a task", func(t *testing.T) {
