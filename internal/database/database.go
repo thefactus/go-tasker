@@ -5,9 +5,11 @@ import (
 	"go-tasker/types"
 	"log"
 	"os"
+	"time"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -46,8 +48,29 @@ func New() Service {
 		return dbInstance
 	}
 
+	// Set log level based on environment
+	var logLevel logger.LogLevel
+	if os.Getenv("APP_ENV") == "test" {
+		logLevel = logger.Silent
+	} else {
+		logLevel = logger.Info
+	}
+
+	// Configure GORM logger
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags),
+		logger.Config{
+			SlowThreshold:             time.Second,
+			LogLevel:                  logLevel,
+			IgnoreRecordNotFoundError: true,
+			ParameterizedQueries:      true, // Don't include params in the SQL log
+		},
+	)
+
 	// Create DB and connect
-	db, err := gorm.Open(sqlite.Open(dbUrl), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(dbUrl), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
